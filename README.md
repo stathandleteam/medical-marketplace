@@ -186,10 +186,7 @@ tx-sender switched to ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND
 >> ::set_tx_sender ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
 (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.appointments complete-appointment u1)
 
-Fetch log entry (assuming log-id is 1)
-(contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.admin fetch-log u1)
-;; Recommend a drug during an appointment
+Fetch log all logs 
+>> (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.audit-logs get-audit-logs)
 
->> (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.drug-recommendation recommend-drug 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG u"Aspirin")
-(ok u1)
 
