@@ -97,6 +97,7 @@ Events emitted
 ;; Approve user (only admin)
 >> ::set_tx_sender ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
 tx-sender switched to ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+
 >> (contract-call? .user-profile approve-user 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG)
 (ok "User approved")
 ```
@@ -105,6 +106,7 @@ tx-sender switched to ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
 ```clojure
 >> ::set_tx_sender ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC
 tx-sender switched to ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC
+
 >> (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.user-profile register-user u"Tim" u"tim@example.com")
 Events emitted
 {"type":"contract_event","contract_event":{"contract_identifier":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.user-profile","topic":"print","value":"{ email: u\"tim@example.com\", event: \"User registration\", name: u\"Tim\", user: 'ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC }"}}
@@ -112,6 +114,7 @@ Events emitted
 ;; Reject user (only admin)
 >> ::set_tx_sender ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
 tx-sender switched to ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+
 >> (contract-call? .user-profile reject-user 'ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC)
 (ok "User rejected")
 ```
@@ -126,6 +129,7 @@ tx-sender switched to ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
 ```clojure
 >> ::set_tx_sender ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND
 tx-sender switched to ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND
+
 >> (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.doctor-profile register-doctor u"Dr. Bob" u"Cardiology")
 (ok "Doctor registered successfully. Awaiting admin approval.")
 ```
@@ -134,6 +138,7 @@ tx-sender switched to ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND
 ```clojure
 >> ::set_tx_sender ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
 tx-sender switched to ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+
 >> (contract-call? .doctor-profile approve-doctor 'ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND true)
 (ok "Doctor approved and registered")
 ```
@@ -142,6 +147,7 @@ tx-sender switched to ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
 ```clojure
 >> ::set_tx_sender ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND
 tx-sender switched to ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND
+
 >> (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.doctor-profile update-doctor-profile u"Dr. Bob Updated" u"Cardiology")
 (ok "Doctor profile updated successfully")
 ```
@@ -158,6 +164,7 @@ tx-sender switched to ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
 ```clojure
 >> (contract-call? .doctor-profile remove-doctor 'ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND)
 (ok "Doctor removed")
+
 >> (contract-call? .doctor-profile remove-doctor 'ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND)
 (err "DOCTOR_NOT_FOUND")
 ```
@@ -174,8 +181,10 @@ Events emitted
 #### Cancel an appointment
 ```clojure
 >> (contract-call? .appointments cancel-appointment u1)
+```
 
 #### Get appointment details
+```clojure
 >> (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.appointments get-appointment u1)
 
 (ok (some (tuple (doctor ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND) (time u1640995200) (user ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG))))
@@ -185,6 +194,7 @@ Events emitted
 ```clojure
 >> ::set_tx_sender ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND
 tx-sender switched to ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND
+
 >> (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.drug-recommendation recommend-drug 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG u"Aspirin")
 (ok u1)
 ```
