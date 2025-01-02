@@ -19,7 +19,6 @@
 tx-sender switched to ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
 ```
 
-
 #### Add a super-admin
 ```clojure
 >> (contract-call? .admin add-super-admin 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM)
@@ -54,11 +53,17 @@ tx-sender switched to ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
 ```clojure
 >> (contract-call? .audit-logs get-audit-logs)
 (ok ((tuple (action u"Add admin") (admin ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM) (details u"Added admin with role: doctor-admin") (timestamp u2)) (tuple (action u"Added admin") (admin ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM) (details u"Details here") (timestamp u2))))
+```
 
+#### Mint for marketplace
+```clojure
 >> (contract-call? .medtoken mint-for-marketplace u1000000)
 Events emitted
 {"type":"ft_mint_event","ft_mint_event":{"asset_identifier":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.medtoken::MEDtoken","recipient":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM","amount":"1000000"}}
+```
 
+#### Mint for marketplace
+```clojure
 >> (contract-call? .medtoken get-total-supply)
 (ok u1000000)
 ```
@@ -93,7 +98,10 @@ Events emitted
 ;; Update user profile
 >> (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.user-profile update-user-profile u"Alice Updated" u"alice@example.com")
 (err "USER_NOT_APPROVED")
+```
 
+### Approve user (only admin)
+```clojure
 ;; Approve user (only admin)
 >> ::set_tx_sender ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
 tx-sender switched to ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
@@ -102,7 +110,7 @@ tx-sender switched to ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
 (ok "User approved")
 ```
 
-#### Testing Reject User
+#### Testing Reject User (user 2)
 ```clojure
 >> ::set_tx_sender ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC
 tx-sender switched to ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC
@@ -111,6 +119,7 @@ tx-sender switched to ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC
 Events emitted
 {"type":"contract_event","contract_event":{"contract_identifier":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.user-profile","topic":"print","value":"{ email: u\"tim@example.com\", event: \"User registration\", name: u\"Tim\", user: 'ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC }"}}
 (ok "User registered successfully, awaiting approval")
+
 ;; Reject user (only admin)
 >> ::set_tx_sender ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
 tx-sender switched to ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
@@ -119,13 +128,13 @@ tx-sender switched to ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
 (ok "User rejected")
 ```
 
-#### is user approved
+#### is user approved (user 1)
 ```clojure
 >> (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.user-profile is-user-approved 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG)
 (ok true)
 ```
 
-#### Doctor registration
+#### Doctor registration (doctor 1)
 ```clojure
 >> ::set_tx_sender ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND
 tx-sender switched to ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND
@@ -143,7 +152,7 @@ tx-sender switched to ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
 (ok "Doctor approved and registered")
 ```
 
-#### Update doctor profile
+#### Update doctor profile (doctor 1)
 ```clojure
 >> ::set_tx_sender ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND
 tx-sender switched to ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND
@@ -172,7 +181,24 @@ tx-sender switched to ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
 #### Book an appointment (user only)
 
 ```clojure
->> (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.appointments book-appointment 'ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND u1640995200)
+;; Register Doctor again
+::set_tx_sender ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND
+tx-sender switched to ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND
+(contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.doctor-profile register-doctor u"Dr. Bob" u"Cardiology")
+(ok "Doctor registered successfully. Awaiting admin approval.")
+
+;; Admin approve doctor
+::set_tx_sender ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+tx-sender switched to ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+
+(contract-call? .doctor-profile approve-doctor 'ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND true)
+(ok "Doctor approved and registered")
+
+;; User books appointment
+::set_tx_sender ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+tx-sender switched to ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
+
+(contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.appointments book-appointment 'ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND u1640995200)
 Events emitted
 {"type":"stx_transfer_event","stx_transfer_event":{"sender":"ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG","recipient":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM","amount":"1000000","memo":""}}
 (ok u1)
@@ -180,13 +206,20 @@ Events emitted
 
 #### Cancel an appointment
 ```clojure
->> (contract-call? .appointments cancel-appointment u1)
+>> (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.appointments cancel-appointment u1)
+(ok true)
 ```
 
 #### Get appointment details
 ```clojure
 >> (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.appointments get-appointment u1)
+(ok none)
 
+;; Book an appointment again
+(contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.appointments book-appointment 'ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND u1640995200)
+
+;; Get an appointment details
+(contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.appointments get-appointment u1)
 (ok (some (tuple (doctor ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND) (time u1640995200) (user ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG))))
 ```
 
@@ -202,11 +235,13 @@ tx-sender switched to ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND
 #### Complete an appointment
 ```clojure
 >> ::set_tx_sender ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG
-(contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.appointments complete-appointment u1)
+(contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.appointments complete-appointment u2)
+Events emitted
+{"type":"stx_transfer_event","stx_transfer_event":{"sender":"ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG","recipient":"ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM","amount":"500000","memo":""}}
+(ok u0)
 ```
 
 #### Fetch log all logs 
 ```clojure
 >> (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.audit-logs get-audit-logs)
 ```
-
