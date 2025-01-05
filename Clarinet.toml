@@ -1,0 +1,71 @@
+[project]
+name = 'medical-marketplace-contracts'
+description = ''
+authors = []
+telemetry = true
+cache_dir = './.cache'
+
+[[project.requirements]]
+contract_id = 'SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard'
+[contracts.activity-prices]
+path = 'contracts/activity-prices.clar'
+clarity_version = 2
+epoch = 2.5
+
+[contracts.admin]
+path = 'contracts/admin.clar'
+clarity_version = 2
+epoch = 2.5
+
+[contracts.appointments]
+path = 'contracts/appointments.clar'
+clarity_version = 2
+epoch = 2.5
+
+[contracts.audit-logs]
+path = 'contracts/audit-logs.clar'
+clarity_version = 2
+epoch = 2.5
+
+[contracts.doctor-profile]
+path = 'contracts/doctor-profile.clar'
+clarity_version = 2
+epoch = 2.5
+
+[contracts.drug-recommendation]
+path = 'contracts/drug-recommendation.clar'
+clarity_version = 2
+epoch = 2.5
+
+[contracts.medtoken]
+path = 'contracts/medtoken.clar'
+clarity_version = 2
+epoch = 2.5
+
+[contracts.medtoken-rewards]
+path = 'contracts/medtoken-rewards.clar'
+clarity_version = 2
+epoch = 2.5
+
+[contracts.payment-methods]
+path = 'contracts/payment-methods.clar'
+clarity_version = 2
+epoch = 2.5
+
+[contracts.procurement]
+path = 'contracts/procurement.clar'
+clarity_version = 2
+epoch = 2.5
+
+[contracts.user-profile]
+path = 'contracts/user-profile.clar'
+clarity_version = 2
+epoch = 2.5
+[repl.analysis]
+passes = ['check_checker']
+
+[repl.analysis.check_checker]
+strict = false
+trusted_sender = false
+trusted_caller = false
+callee_filter = false
